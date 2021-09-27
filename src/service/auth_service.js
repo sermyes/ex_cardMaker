@@ -2,7 +2,9 @@ import {
     getAuth, 
     signInWithPopup, 
     GoogleAuthProvider,
-    GithubAuthProvider 
+    GithubAuthProvider,
+    onAuthStateChanged,
+    signOut 
 } from "firebase/auth";
 
 class AuthService {
@@ -17,6 +19,10 @@ class AuthService {
         return signInWithPopup(this.firebaseAuth, authProvider);
     }
 
+    logout() {
+        signOut(this.firebaseAuth);
+    }
+
     getProvider(providerName){
         switch (providerName) {
             case 'Google':
@@ -26,6 +32,12 @@ class AuthService {
             default:
                 throw new Error(`not supported provider: ${providerName}`);
         }
+    }
+
+    onAuthChange(onUserChanged) {
+        onAuthStateChanged(this.firebaseAuth, (user) => {
+            onUserChanged(user);
+        });
     }
 }
 
