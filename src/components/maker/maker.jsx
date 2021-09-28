@@ -6,42 +6,8 @@ import Header from '../header/header';
 import Preview from '../preview/preview';
 import styles from './maker.module.css';
 
-const Maker = ({ authService }) => {
-  const [cards, setCards] = useState({
-    1: {
-      id: '1',
-      name: 'a',
-      company: 'Samsung',
-      theme: 'light',
-      title: 'Software Engineer',
-      email: 'lsh@gmail.com',
-      message: 'go for it',
-      fileName: 'lsh',
-      fileURL: null
-    },
-    2: {
-      id: '2',
-      name: 'b',
-      company: 'Samsung',
-      theme: 'dark',
-      title: 'Software Engineer',
-      email: 'lsh@gmail.com',
-      message: 'go for it',
-      fileName: 'lsh',
-      fileURL: null
-    },
-    3: {
-      id: '3',
-      name: 'c',
-      company: 'Samsung',
-      theme: 'colorful',
-      title: 'Software Engineer',
-      email: 'lsh@gmail.com',
-      message: 'go for it',
-      fileName: 'lsh',
-      fileURL: null
-    }
-  });
+const Maker = ({ authService, FileInput }) => {
+  const [cards, setCards] = useState({});
 
   const history = useHistory();
 
@@ -78,7 +44,8 @@ const Maker = ({ authService }) => {
       <Header onLogout={onLogout} />
       <div className={styles.container}>
         <Editor
-          cards={cards} //
+          FileInput={FileInput} //
+          cards={cards}
           createOrUpdateCard={createOrUpdateCard}
           deleteCard={deleteCard}
         />
