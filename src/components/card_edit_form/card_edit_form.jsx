@@ -33,7 +33,10 @@ const CardEditForm = ({ card, updateCard, deleteCard }) => {
     });
   };
 
-  const onSubmit = () => {};
+  const onSubmit = (event) => {
+    event.preventDefault();
+    deleteCard(card);
+  };
 
   return (
     <form className={styles.form}>
