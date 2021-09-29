@@ -6,18 +6,39 @@ import Header from '../header/header';
 import Preview from '../preview/preview';
 import styles from './maker.module.css';
 
-const Maker = ({ authService, FileInput }) => {
-  const [cards, setCards] = useState({});
-
+const Maker = ({ authService, FileInput, cardRepository }) => {
   const history = useHistory();
+  const historyState = history?.location?.state;
+  // histroyState = history && histroy.location && history.location.state
+
+  const [cards, setCards] = useState({});
+  const [userId, setUserId] = useState(historyState && historyState.id);
 
   const onLogout = () => {
     authService.logout();
   };
 
+  // database sync
+  useEffect(() => {
+    if (!userId) {
+      return;
+    }
+
+    const stopSync = cardRepository.syncCard(userId, (cards) => {
+      setCards(cards);
+    });
+
+    return () => {
+      stopSync();
+    };
+  }, [userId, cardRepository]);
+
+  // login
   useEffect(() => {
     authService.onAuthChange((user) => {
-      if (!user) {
+      if (user) {
+        setUserId(user.uid);
+      } else {
         history.push('/');
       }
     });
@@ -29,6 +50,8 @@ const Maker = ({ authService, FileInput }) => {
       updated[card.id] = card;
       return updated;
     });
+
+    cardRepository.saveCard(userId, card);
   };
 
   const deleteCard = (card) => {
@@ -37,6 +60,8 @@ const Maker = ({ authService, FileInput }) => {
       delete updated[card.id];
       return updated;
     });
+
+    cardRepository.removeCard(userId, card);
   };
 
   return (

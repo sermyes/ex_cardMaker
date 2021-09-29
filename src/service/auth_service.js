@@ -1,11 +1,11 @@
-import { 
-  getAuth, 
-  signInWithPopup, 
+import {
+  getAuth,
+  signInWithPopup,
   GoogleAuthProvider,
   GithubAuthProvider,
   onAuthStateChanged,
-  signOut 
-} from "firebase/auth";
+  signOut
+} from 'firebase/auth';
 
 class AuthService {
   constructor() {
@@ -23,7 +23,7 @@ class AuthService {
     signOut(this.firebaseAuth);
   }
 
-  getProvider(providerName){
+  getProvider(providerName) {
     switch (providerName) {
       case 'Google':
         return this.googleAuthProvider;
@@ -35,7 +35,7 @@ class AuthService {
   }
 
   onAuthChange(onUserChanged) {
-    onAuthStateChanged(this.firebaseAuth, (user) => {
+    onAuthStateChanged(this.firebaseAuth, user => {
       onUserChanged(user);
     });
   }
