@@ -42,7 +42,7 @@ const Maker = ({ authService, FileInput, cardRepository }) => {
         history.push('/');
       }
     });
-  });
+  }, [authService, history]);
 
   const createOrUpdateCard = (card) => {
     setCards((cards) => {
